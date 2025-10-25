@@ -27,23 +27,30 @@ def get_rows():
 
 
 def parse_definition(text):
-    # Takes a string of definitions and splits them into morphology and several definitions.
+    # 1. Extract optional morph
     pattern_morph = r'^(?:<i>(?P<morph>.*?)<\/i>)?\s*(?P<rest>.*)'
     m = re.match(pattern_morph, text.strip(), flags=re.S)
     morph = m.group('morph')
     rest = m.group('rest').strip()
 
-    # Pattern for numbered definitions
-    pattern_defs = r'(?P<definition>\d+[.)]\s*.*?)(?=(?:\d+[.)]\s*)|$)'
+    # 2. Extract definitions, excluding numeric markers
+    pattern_defs = r'(?<=\d[.)]\s)(.*?)(?=(?:\d+[.)]\s)|$)'
     defs = [d.strip() for d in re.findall(pattern_defs, rest, flags=re.S | re.U)]
 
-    # If no numeric markers, treat the entire rest as one definition
+    # 3. If no numeric markers, treat all as one definition
     if not defs and rest:
         defs = [rest.strip()]
 
-    print({"morph": morph, "definitions": defs})
+    # 4. Split into keyword / example
+    def split_def(d):
+        parts = d.split(';', 1)
+        keyword = parts[0].strip()
+        example = parts[1].strip() if len(parts) > 1 else None
+        return {'keyword': keyword, 'example': example}
 
-    return {"morph": morph, "definitions": defs}
+    definitions = [split_def(d) for d in defs]
+
+    return {"morph": morph, "definitions": definitions}
 
 
 def process_maciev(row: dict[str, str]) -> Generator[list[str] | None]:
@@ -100,10 +107,10 @@ def process_maciev(row: dict[str, str]) -> Generator[list[str] | None]:
         meaning = parse_definition(groupdict["meaning"])
         del groupdict["meaning"]
         if meaning["definitions"]:
-            for definition in meaning["definitions"]:
-                yield [*(groupdict[column] for column in columns), meaning["morph"], definition, string]
+            for index, definition in enumerate(meaning["definitions"]):
+                yield [index+1, *(groupdict[column] for column in columns), meaning["morph"], definition["keyword"], definition["example"], string]
         else:
-            yield [*(groupdict[column] for column in columns), meaning["morph"], "", string]
+            yield [1, *(groupdict[column] for column in columns), meaning["morph"], "", "", string]
     else:
         # print("failed parse:", string)
         pass
@@ -120,18 +127,18 @@ if __name__ == "__main__":
                 continue
             case _:
                 continue
-    (pd.DataFrame(df, columns=[*columns, "morph_tag", "meaning_ru", "raw"])
-        .sort_values(by="lemma", key=lambda col: col.str.lower())
+    (pd.DataFrame(df, columns=["id_meaning", *columns, "morph_tag", "meaning_ru", "example", "raw"])
+        .sort_values(by=["lemma", "id_meaning"])
         .drop_duplicates()
         .to_csv("processed.csv")
     )
 
-examples = [
-    "<i>прил.</i> 1) па́русный; <b>гатанан ке̃ма </b>па́русная ло́дка; 2) полоте́нечный; 3) полотняный; паруси́новый; холщо́вый.",
-    "<i>прич.</i> ветви́стый.",
-    "шум (<i>голосов</i>); <b>а̃рахь гӀар</b>-<b>говгӀа яьлла </b>на дворе́ подня́лся шум.",
-    "1) уси́лие, напо́р; 2) опо́ра, опло́т, <b>Советски Союз </b>– <b>машаран гӀортõ ю </b>Сове́тский Сою́з – опло́т ми́ра.",
-]
+# examples = [
+#     "<i>прил.</i> 1) па́русный; <b>гатанан ке̃ма </b>па́русная ло́дка; 2) полоте́нечный; 3) полотняный; паруси́новый; холщо́вый.",
+#     "<i>прич.</i> ветви́стый.",
+#     "шум (<i>голосов</i>); <b>а̃рахь гӀар</b>-<b>говгӀа яьлла </b>на дворе́ подня́лся шум.",
+#     "1) уси́лие, напо́р; 2) опо́ра, опло́т, <b>Советски Союз </b>– <b>машаран гӀортõ ю </b>Сове́тский Сою́з – опло́т ми́ра.",
+# ]
 
-for e in examples:
-    print(parse_definition(e))
+# for e in examples:
+#     print(parse_definition(e))
