@@ -1,8 +1,6 @@
 import re
 from typing import Generator
 
-columns = ["lemma", "morph1", "morph2", "reference_type", "reference_lemma"]
-
 
 def parse_definition(text):
     # 1. Extract optional morph
@@ -87,27 +85,47 @@ def process_row(row: dict[str, str]) -> Generator[dict[str, str] | None]:
         if meaning["definitions"]:
             for index, definition in enumerate(meaning["definitions"]):
                 yield {
+                    "language": "Chechen",
+                    "glottocode": "chec1245",
+                    "reference": "Matsiyev 1961",
+                    "annotator": "Shestakov Maxim",
+
                     "id_meaning": str(index+1),
+                    "id_word": row["id"],
                     "lemma": groupdict["lemma"],
-                    "morph": (groupdict["morph1"] or groupdict["morph2"]),
-                    "reference_type": groupdict["reference_type"],
-                    "reference_lemma": groupdict["reference_lemma"],
-                    "morph_tag": meaning["morph"],
+                    "ipa": "",
+
+                    "morphology": (groupdict["morph1"] or groupdict["morph2"]),
+                    "pos": meaning["morph"],
                     "meaning_ru": definition["keyword"],
-                    "example": definition["example"],
-                    "raw": string,
+                    "examples": definition["example"],
+
+                    "definition": string,
+
+                    # "reference_type": groupdict["reference_type"],
+                    # "reference_lemma": groupdict["reference_lemma"],
                 }
         else:
             yield {
+                "language": "Chechen",
+                "glottocode": "chec1245",
+                "reference": "Matsiyev 1961",
+                "annotator": "Shestakov Maxim",
+
                 "id_meaning": "1",
+                "id_word": row["id"],
                 "lemma": groupdict["lemma"],
-                "morph": (groupdict["morph1"] or groupdict["morph2"]),
-                "reference_type": groupdict["reference_type"],
-                "reference_lemma": groupdict["reference_lemma"],
-                "morph_tag": meaning["morph"],
+                "ipa": "",
+
+                "morphology": (groupdict["morph1"] or groupdict["morph2"]),
+                "pos": meaning["morph"],
                 "meaning_ru": "",
-                "example": "",
-                "raw": string,
+                "examples": "",
+
+                "definition": string,
+
+                # "reference_type": groupdict["reference_type"],
+                # "reference_lemma": groupdict["reference_lemma"],
             }
     else:
         # print("failed parse:", string)

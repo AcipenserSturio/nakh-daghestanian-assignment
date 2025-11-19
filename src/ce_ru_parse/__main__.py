@@ -4,18 +4,29 @@ from pathlib import Path
 import pandas as pd
 import requests
 
-from .processors import maciev_ce_ru
+from .processors import (
+    ce_ru_anatomy,
+    maciev_ce_ru,
+    ru_ce_anatomy,
+)
 
 columns = [
+    "language",
+    "glottocode",
+    "reference",
+    "annotator",
+
     "id_meaning",
+    "id_word",
     "lemma",
-    "morph",
-    "reference_type",
-    "reference_lemma",
-    "morph_tag",
+    "ipa",
+
+    "morphology",
+    "pos",
     "meaning_ru",
-    "example",
-    "raw",
+    "examples",
+
+    "definition",
 ]
 
 def get_rows():
@@ -46,11 +57,18 @@ def main():
                     if row_:
                         df.append(row_)
                 continue
+            case "ce_ru_anatomy":
+                if row_ := ce_ru_anatomy.process_row(row):
+                    df.append(row_)
+            # Skip ru_ce_anatomy. It is the same data, essentially.
+            # case "ru_ce_anatomy":
+            #     if row_ := ru_ce_anatomy.process_row(row):
+            #         df.append(row_)
             case _:
                 continue
     df_: list[list[str]] = [[row[col] for col in columns] for row in df]
     (pd.DataFrame(df_, columns=columns)
-        .sort_values(by=["lemma", "id_meaning"])
+        .sort_values(by=["reference", "lemma", "id_meaning"])
         .drop_duplicates()
         .to_csv("processed.csv")
     )
