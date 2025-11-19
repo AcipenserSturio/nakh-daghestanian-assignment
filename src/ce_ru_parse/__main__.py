@@ -11,6 +11,7 @@ from .processors import (
     daukaev_ru_ce,
     ismailov_ce_ru,
     ismailov_ru_ce,
+    karasaev_maciev_ru_ce,
     maciev_ce_ru,
     ru_ce_ce_ru_computer,
     umarhadjiev_ahmatukaev_ce_ru_ru_ce,
@@ -94,6 +95,10 @@ def main():
             case "ismailov_ru_ce":
                 if row_ := ismailov_ru_ce.process_row(row):
                     df.append(row_)
+            # Needs work
+            # case "karasaev_maciev_ru_ce":
+            #     if row_ := karasaev_maciev_ru_ce.process_row(row):
+            #         df.append(row_)
             case _:
                 continue
     df_: list[list[str]] = [[row[col] for col in columns] for row in df]
