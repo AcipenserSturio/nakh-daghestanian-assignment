@@ -9,6 +9,8 @@ from .processors import (
     baisultanov_ce_ru,
     ce_ru_anatomy,
     daukaev_ru_ce,
+    ismailov_ce_ru,
+    ismailov_ru_ce,
     maciev_ce_ru,
     ru_ce_ce_ru_computer,
     umarhadjiev_ahmatukaev_ce_ru_ru_ce,
@@ -85,6 +87,12 @@ def main():
                     df.append(row_)
             case "daukaev_ru_ce":
                 if row_ := daukaev_ru_ce.process_row(row):
+                    df.append(row_)
+            case "ismailov_ce_ru":
+                if row_ := ismailov_ce_ru.process_row(row):
+                    df.append(row_)
+            case "ismailov_ru_ce":
+                if row_ := ismailov_ru_ce.process_row(row):
                     df.append(row_)
             case _:
                 continue
