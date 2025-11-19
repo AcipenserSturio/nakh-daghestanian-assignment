@@ -31,7 +31,7 @@ def parse_definition(text):
     return {"morph": morph, "definitions": definitions}
 
 
-def process_maciev(row: dict[str, str]) -> Generator[list[str] | None]:
+def process_row(row: dict[str, str]) -> Generator[dict[str, str] | None]:
     if not row["word"] or not row["translate"]:
         # print(f"skipping {row["id"]}: no word/translate")
         return
@@ -86,9 +86,29 @@ def process_maciev(row: dict[str, str]) -> Generator[list[str] | None]:
         del groupdict["meaning"]
         if meaning["definitions"]:
             for index, definition in enumerate(meaning["definitions"]):
-                yield [index+1, *(groupdict[column] for column in columns), meaning["morph"], definition["keyword"], definition["example"], string]
+                yield {
+                    "id_meaning": str(index+1),
+                    "lemma": groupdict["lemma"],
+                    "morph": (groupdict["morph1"] or groupdict["morph2"]),
+                    "reference_type": groupdict["reference_type"],
+                    "reference_lemma": groupdict["reference_lemma"],
+                    "morph_tag": meaning["morph"],
+                    "meaning_ru": definition["keyword"],
+                    "example": definition["example"],
+                    "raw": string,
+                }
         else:
-            yield [1, *(groupdict[column] for column in columns), meaning["morph"], "", "", string]
+            yield {
+                "id_meaning": "1",
+                "lemma": groupdict["lemma"],
+                "morph": (groupdict["morph1"] or groupdict["morph2"]),
+                "reference_type": groupdict["reference_type"],
+                "reference_lemma": groupdict["reference_lemma"],
+                "morph_tag": meaning["morph"],
+                "meaning_ru": "",
+                "example": "",
+                "raw": string,
+            }
     else:
         # print("failed parse:", string)
         pass

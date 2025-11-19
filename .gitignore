@@ -3,6 +3,7 @@ wordlist.json
 chechen.csv
 processed.csv
 literature/
+.~lock.*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

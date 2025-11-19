@@ -6,7 +6,17 @@ import requests
 
 from .processors import maciev_ce_ru
 
-columns = ["lemma", "morph1", "morph2", "reference_type", "reference_lemma"]
+columns = [
+    "id_meaning",
+    "lemma",
+    "morph",
+    "reference_type",
+    "reference_lemma",
+    "morph_tag",
+    "meaning_ru",
+    "example",
+    "raw",
+]
 
 def get_rows():
     if Path("wordlist.json").exists():
@@ -28,17 +38,18 @@ def get_rows():
 
 
 def main():
-    df: list[list[str]] = []
+    df: list[dict[str, str]] = []
     for row in get_rows():
         match row["source"]:
             case "maciev_ce_ru":
-                for row_ in maciev_ce_ru.process_maciev(row):
+                for row_ in maciev_ce_ru.process_row(row):
                     if row_:
                         df.append(row_)
                 continue
             case _:
                 continue
-    (pd.DataFrame(df, columns=["id_meaning", *columns, "morph_tag", "meaning_ru", "example", "raw"])
+    df_: list[list[str]] = [[row[col] for col in columns] for row in df]
+    (pd.DataFrame(df_, columns=columns)
         .sort_values(by=["lemma", "id_meaning"])
         .drop_duplicates()
         .to_csv("processed.csv")
