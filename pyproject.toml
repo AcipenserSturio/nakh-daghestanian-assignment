@@ -1,0 +1,20 @@
+[project]
+name = "ce_ru_parse"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "AcipenserSturio", email = "AcipenserSturio@users.noreply.github.com"},
+]
+dependencies = ["pandas>=2.3.3", "requests>=2.32.5"]
+requires-python = "==3.13.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+ce_ru_parse = "ce_ru_parse.__main__:main"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.scripts]
+dev = "python -m ce_ru_parse"
