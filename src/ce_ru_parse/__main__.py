@@ -5,6 +5,7 @@ import pandas as pd
 import requests
 
 from .processors import (
+    aslahanov_ru_ce,
     baisultanov_ce_ru,
     ce_ru_anatomy,
     maciev_ce_ru,
@@ -77,6 +78,9 @@ def main():
                     df.append(row_)
             case "baisultanov_ce_ru":
                 if row_ := baisultanov_ce_ru.process_row(row):
+                    df.append(row_)
+            case "aslahanov_ru_ce":
+                if row_ := aslahanov_ru_ce.process_row(row):
                     df.append(row_)
             case _:
                 continue
