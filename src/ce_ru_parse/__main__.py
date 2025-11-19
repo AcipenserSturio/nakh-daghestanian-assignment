@@ -5,9 +5,10 @@ import pandas as pd
 import requests
 
 from .processors import (
+    baisultanov_ce_ru,
     ce_ru_anatomy,
     maciev_ce_ru,
-    ru_ce_anatomy,
+    ru_ce_ce_ru_computer,
     umarhadjiev_ahmatukaev_ce_ru_ru_ce,
 )
 
@@ -67,6 +68,15 @@ def main():
             #         df.append(row_)
             case "umarhadjiev_ahmatukaev_ce_ru_ru_ce":
                 if row_ := umarhadjiev_ahmatukaev_ce_ru_ru_ce.process_row(row):
+                    df.append(row_)
+            # Mostly unrecoverable in the present condition.
+            # case "abdurashidov_ce_ru_ru_ce":
+            #   pass
+            case "ru_ce_ce_ru_computer":
+                if row_ := ru_ce_ce_ru_computer.process_row(row):
+                    df.append(row_)
+            case "baisultanov_ce_ru":
+                if row_ := baisultanov_ce_ru.process_row(row):
                     df.append(row_)
             case _:
                 continue
