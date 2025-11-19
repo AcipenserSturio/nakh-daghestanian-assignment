@@ -8,6 +8,7 @@ from .processors import (
     ce_ru_anatomy,
     maciev_ce_ru,
     ru_ce_anatomy,
+    umarhadjiev_ahmatukaev_ce_ru_ru_ce,
 )
 
 columns = [
@@ -64,6 +65,9 @@ def main():
             # case "ru_ce_anatomy":
             #     if row_ := ru_ce_anatomy.process_row(row):
             #         df.append(row_)
+            case "umarhadjiev_ahmatukaev_ce_ru_ru_ce":
+                if row_ := umarhadjiev_ahmatukaev_ce_ru_ru_ce.process_row(row):
+                    df.append(row_)
             case _:
                 continue
     df_: list[list[str]] = [[row[col] for col in columns] for row in df]

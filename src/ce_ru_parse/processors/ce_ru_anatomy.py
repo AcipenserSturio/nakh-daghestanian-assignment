@@ -8,11 +8,13 @@ def process_row(row: dict[str, str]) -> dict[str, str] | None:
 
     string = f"{row["word"]} | {row["translate"]}"
 
-    # TODO: sometimes the lemma and meaning_ru are backwards.
-    # try using the orthography to unswap them.
     lemma = row["word"].strip()
     meaning_ru = row["translate"].split("(")[0]
     examples = row["translate"].split(")")[-1]
+
+    # Sometimes the data is erroneously flipped.
+    if "Ӏ" in meaning_ru or "аь" in meaning_ru:
+        meaning_ru, lemma = lemma, meaning_ru
 
     return {
         "language": "Chechen",
