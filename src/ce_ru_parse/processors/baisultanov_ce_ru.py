@@ -16,7 +16,7 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
     lemma = l.group("lemma")
     morph = l.group("tag")
 
-    m = re.match(r"(?P<qualifier>(Прост-ирон|Прост|Устар|Разг|Религ|Старин|Уст|Ирон|Уст\. Прост)\.)? ?(?P<meaning>.*?)(\n?\<br ?\/\>(?P<examples>.*))", row["translate"] + "<br />")
+    m = re.match(r"(?P<qualifier>(Прост-ирон|Прост|Устар|Разг|Религ|Диал|Старин|Уст|Ирон|Уст\. Прост)\.)? ?((?P<meaning>.*?)\.?)(\n?\<br ?\/\>(?P<examples>.*))", row["translate"] + "<br />")
     if not m:
         # print(row["translate"])
         return

@@ -97,7 +97,7 @@ def process_row(row: dict[str, str]) -> Generator[dict[str, str] | None]:
 
                     "morphology": (groupdict["morph1"] or groupdict["morph2"]),
                     "pos": meaning["morph"],
-                    "meaning_ru": definition["keyword"],
+                    "meaning_ru": definition["keyword"].replace("\u0301", ""),
                     "examples": definition["example"],
 
                     "definition": string,
