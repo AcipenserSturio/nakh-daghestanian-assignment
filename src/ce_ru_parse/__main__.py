@@ -104,7 +104,7 @@ def main():
                 continue
     df_: list[list[str]] = [[row[col] for col in columns] for row in rows]
     df = (pd.DataFrame(df_, columns=columns)
-        .sort_values(by=["reference", "lemma", "id_meaning"])
+        .sort_values(by=["lemma", "id_meaning", "reference"])
         .drop_duplicates()
     )
     print(df["lemma"])

@@ -9,14 +9,14 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
 
     string = f"{row["word"]} | {row["translate"]}"
 
-    l = re.match(r"(?P<lemma>.*) (?P<tag>\(.*\))", row["word"])
+    l = re.match(r"(?P<lemma>.*?) (?P<tag>\(.*\))", row["word"])
     if not l:
         # print(row["word"])
         return
     lemma = l.group("lemma")
     morph = l.group("tag")
 
-    m = re.match(r"(?P<qualifier>(Прост-ирон|Прост|Устар|Разг|Религ|Диал|Старин|Уст|Ирон|Уст\. Прост)\.)? ?((?P<meaning>.*?)\.?)(\n?\<br ?\/\>(?P<examples>.*))", row["translate"] + "<br />")
+    m = re.match(r"(?P<qualifier>(Прост-ирон|Разг.-шутл|Прост|Устар|Разг|Религ|Диал|Старин|Уст|Ирон|Уст\. Прост)\.)? ?((?P<meaning>.*?)\.?)(\n?\<br ?\/\>(?P<examples>.*))", row["translate"] + "<br />")
     if not m:
         # print(row["translate"])
         return
