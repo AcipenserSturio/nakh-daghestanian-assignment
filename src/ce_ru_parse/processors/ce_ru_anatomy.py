@@ -8,9 +8,15 @@ def process_row(row: dict[str, str]) -> dict[str, str] | None:
 
     string = f"{row["word"]} | {row["translate"]}"
 
-    lemma = row["word"].strip()
+    lemma = row["word"].split("(")[0].strip()
     meaning_ru = row["translate"].split("(")[0]
     examples = row["translate"].split(")")[-1]
+
+    # consider:
+    # Мышца, поднимающая верхнюю губу и крылья носа
+    # Лакхара балда а, меран тӀемаш а хьалаойу оьзг
+    if "," in lemma:
+        return
 
     # Sometimes the data is erroneously flipped.
     if "Ӏ" in meaning_ru or "аь" in meaning_ru:

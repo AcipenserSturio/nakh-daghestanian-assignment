@@ -4,6 +4,7 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+from .exclude import indices_to_exclude
 from .ipa import transcribe
 from .processors import (
     aslahanov_ru_ce,
@@ -104,11 +105,10 @@ def main():
                 continue
     df_: list[list[str]] = [[row[col] for col in columns] for row in rows]
     df = (pd.DataFrame(df_, columns=columns)
-        .sort_values(by=["lemma", "id_meaning", "reference"])
+        .sort_values(by=["lemma", "id_meaning", "reference"], key=lambda col: col.str.lower())
         .drop_duplicates()
     )
-    print(df["lemma"])
-    print(df["lemma"].apply(lambda x: transcribe(x)))
+    df = df[~df["id_word"].isin(indices_to_exclude)]
     df["ipa"] = df["lemma"].apply(lambda x: transcribe(x))
     df.to_csv("processed.csv")
 

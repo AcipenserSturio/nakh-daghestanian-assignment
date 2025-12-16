@@ -63,7 +63,9 @@ transcription_system = {cyr: ipa for cyr, ipa in sorted(transcription_system.ite
 
 def transcribe(word):
     word = word.lower().strip()
+    # Enforce true palochka
+    word = word.replace("l", "Ӏ").replace("Ӏ", "Ӏ")
     for cyr, ipa in transcription_system.items():
-        word = word.replace(cyr, f"-{ipa}")
-    word = word.replace(" -", " ")
+        word = word.replace(cyr.lower(), f"-{ipa}")
+    word = word.replace(" -", " ").replace("--", " ")
     return word[1:]
