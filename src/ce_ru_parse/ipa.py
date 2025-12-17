@@ -57,6 +57,15 @@ transcription_system = {
     "юь": "jy",
     "я": "ja",
     "яь": "jæ",
+    # Matsiev-specific long vowel marking:
+    # 'а̃': 'ɑː',
+    # 'е̃': 'ɛː',
+    # 'о̃': 'ɔː',
+    # 'о̃ь': '',
+    # 'у̃': '',
+    # 'э̃': '',
+    # 'ю̃': '',
+    # 'я̃': ''
 }
 
 transcription_system = {cyr: ipa for cyr, ipa in sorted(transcription_system.items(), key=lambda x: len(x[0]), reverse=True)}

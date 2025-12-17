@@ -13,7 +13,7 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
     if not l:
         # print(row["word"])
         return
-    lemma = l.group("lemma")
+    lemma = l.group("lemma").replace("«", "").replace("»", "")
     morph = l.group("tag")
 
     m = re.match(r"(?P<qualifier>(Прост-ирон|Разг.-шутл|Прост|Устар|Разг|Религ|Диал|Старин|Уст|Ирон|Уст\. Прост)\.)? ?((?P<meaning>.*?)\.?)(\n?\<br ?\/\>(?P<examples>.*))", row["translate"] + "<br />")

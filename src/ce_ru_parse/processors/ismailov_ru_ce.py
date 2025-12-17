@@ -21,7 +21,7 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
     return {
         "language": "Chechen",
         "glottocode": "chec1245",
-        "reference": "Ismailov",
+        "reference": "Ismailov (ru-ce)",
         "annotator": "Shestakov Maxim",
 
         "id_meaning": "1",

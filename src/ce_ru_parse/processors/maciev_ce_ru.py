@@ -81,6 +81,9 @@ def process_row(row: dict[str, str]) -> Generator[dict[str, str] | None]:
         # print(match.groupdict()["meaning"])
         groupdict = match.groupdict()
         meaning = parse_definition(groupdict["meaning"])
+        lemma = re.sub(r"\d", "", groupdict["lemma"])
+        # dictionary-specific long vowel markers; maybe keep?
+        lemma = lemma.replace("\u0303", "")
         del groupdict["meaning"]
         if meaning["definitions"]:
             for index, definition in enumerate(meaning["definitions"]):
@@ -92,12 +95,12 @@ def process_row(row: dict[str, str]) -> Generator[dict[str, str] | None]:
 
                     "id_meaning": str(index+1),
                     "id_word": row["id"],
-                    "lemma": groupdict["lemma"],
+                    "lemma": lemma,
                     "ipa": "",
 
                     "morphology": (groupdict["morph1"] or groupdict["morph2"]),
                     "pos": meaning["morph"],
-                    "meaning_ru": definition["keyword"].replace("\u0301", ""),
+                    "meaning_ru": definition["keyword"].replace("\u0301", "").split(",")[0],
                     "examples": definition["example"],
 
                     "definition": string,
@@ -114,7 +117,7 @@ def process_row(row: dict[str, str]) -> Generator[dict[str, str] | None]:
 
                 "id_meaning": "1",
                 "id_word": row["id"],
-                "lemma": groupdict["lemma"],
+                "lemma": lemma,
                 "ipa": "",
 
                 "morphology": (groupdict["morph1"] or groupdict["morph2"]),
