@@ -18,6 +18,7 @@ from .processors import (
     ru_ce_ce_ru_computer,
     umarhadjiev_ahmatukaev_ce_ru_ru_ce,
 )
+from .utils import ensure_cyrillic
 
 columns = [
     "language",
@@ -104,11 +105,10 @@ def main():
             case _:
                 continue
     df_: list[list[str]] = [[row[col] for col in columns] for row in rows]
-    df = (pd.DataFrame(df_, columns=columns)
-        # .sort_values(by=["reference", "lemma", "id_meaning"], key=lambda col: col.str.lower())
-        .sort_values(by=["lemma", "id_meaning", "reference"], key=lambda col: col.str.lower())
-        .drop_duplicates()
-    )
+    df = pd.DataFrame(df_, columns=columns)
+    df["lemma"] = df["lemma"].apply(lambda x: ensure_cyrillic(x))
+    df = df.sort_values(by=["lemma", "id_meaning", "reference"], key=lambda col: col.str.lower())
+    df = df.drop_duplicates()
     df = df[~df["id_word"].isin(indices_to_exclude)]
     df["ipa"] = df["lemma"].apply(lambda x: transcribe(x))
     df.to_csv("processed.csv")

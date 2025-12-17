@@ -10,6 +10,8 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
     string = f"{row["word"]} | {row["translate"]}"
 
     lemma = row["word"]
+    # Drop digits distinguishing homophones
+    lemma = re.sub(r"\d", "", lemma)
 
     m = re.match(r" ?((\<i\>|\()(?P<tag>.*)(\<\/i\>|\)))? – (?P<meaning>.*)", row["translate"])
     if not m:

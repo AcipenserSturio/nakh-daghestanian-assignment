@@ -1,7 +1,6 @@
 # Output
 wordlist.json
-chechen.csv
-processed.csv
+*.csv
 literature/
 .~lock.*
 

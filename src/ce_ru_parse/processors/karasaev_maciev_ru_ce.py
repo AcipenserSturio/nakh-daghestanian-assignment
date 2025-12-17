@@ -25,7 +25,7 @@ def extract_lemmas(text: str):
             continue
         if "[" in lemma or "]" in lemma:
             continue
-        if lemma in {"а", "а́я", "ая", "аяся"}:
+        if lemma in {"а", "а́", "а́я", "ая", "аяся"}:
             continue
         if not lemma:
             continue
