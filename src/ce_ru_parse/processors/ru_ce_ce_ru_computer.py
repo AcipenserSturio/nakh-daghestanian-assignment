@@ -14,6 +14,8 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
         # print(row["word"])
         return
     lemma = l.group("lemma")
+    # dictionary-specific long vowel markers; maybe keep?
+    lemma = lemma.replace("\u0303", "")
     word_class_tag = l.group("tag")
 
     m = re.match(r"(?P<meaning>.*?)(\n?\<br ?\/\>(?P<examples>.*))", row["translate"] + "<br />")
