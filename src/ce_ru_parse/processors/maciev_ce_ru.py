@@ -37,7 +37,7 @@ def parse_meaning_ru(meaning_ru: str):
     # Drop stuff post first punctuation
     meaning_ru = re.split(r"[\(\)\,\.\!\?\<\>\;]", meaning_ru)[0]
     # Remove non-word internal hyphens (happen at the end)
-    meaning_ru = re.sub(r" -?-?$", "", meaning_ru)
+    meaning_ru = re.sub(r" -?-?-?$", "", meaning_ru)
     return meaning_ru.strip()
 
 

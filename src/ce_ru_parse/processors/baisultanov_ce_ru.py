@@ -139,7 +139,7 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
     # Select the first valid "sentence"
     meaning_ru = meaning_ru[0]
     # Drop stuff post first punctuation
-    meaning_ru = re.split(r"[\(\)\,\!\?]", meaning_ru)[0]
+    meaning_ru = re.split(r"[\(\)\,\!\?\;]", meaning_ru)[0]
     meaning_ru = re.sub("^ ?[–-]", "", meaning_ru).strip()
     examples = m.group("examples")
 
