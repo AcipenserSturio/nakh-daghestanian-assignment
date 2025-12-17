@@ -10,6 +10,7 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
     string = f"{row["word"]} | {row["translate"]}"
 
     meaning_ru = row["word"]
+    meaning_ru = re.split(r"[\(\)\,\!\?]", meaning_ru)[0]
 
     m = re.match(r"(?P<meaning>.*?)(\((?P<morph>.*)\))", row["translate"])
     if not m:
