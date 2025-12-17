@@ -10,6 +10,8 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
     string = f"{row["word"]} | {row["translate"]}"
 
     meaning_ru = row["word"]
+    # Drop stuff post first punctuation
+    meaning_ru = re.split(r"[\(\)\,\!\?\<\>]", meaning_ru)[0]
 
     m = re.match(r" – (?P<meaning>.*?)(, )?((\<i\>|\()(?P<tag>.*)(\<\/i\>|\)))", row["translate"])
     if not m:

@@ -21,12 +21,17 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
         # print(row["translate"])
         return
     meaning_ru = m.group("meaning").strip()
+    # Drop Russian vowel length marking
+    meaning_ru = meaning_ru.replace("\u0301", "")
+    # Drop stuff post first punctuation
+    meaning_ru = re.split(r"[\(\)\,\.\!\?\<\>\;]", meaning_ru)[0]
+
     examples = m.group("examples")
 
     return {
         "language": "Chechen",
         "glottocode": "chec1245",
-        "reference": "Umarhadjiev (when?)",
+        "reference": "Umarhadjiev",
         "annotator": "Shestakov Maxim",
 
         "id_meaning": "1",

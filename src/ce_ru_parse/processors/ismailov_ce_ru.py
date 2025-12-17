@@ -17,6 +17,10 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
         return
     tag = m.group("tag")
     meaning_ru = m.group("meaning").strip()
+    # Delete HTML
+    meaning_ru = re.sub(r"\<.*?>", "", meaning_ru)
+    # Drop stuff post first punctuation
+    meaning_ru = re.split(r"[\(\)\,\!\?\<\>\;]", meaning_ru)[0]
 
     return {
         "language": "Chechen",

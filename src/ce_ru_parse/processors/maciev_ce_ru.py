@@ -29,6 +29,19 @@ def parse_definition(text):
     return {"morph": morph, "definitions": definitions}
 
 
+def parse_meaning_ru(meaning_ru: str):
+    # Drop Russian vowel length marking
+    meaning_ru = meaning_ru.replace("\u0301", "")
+    # Delete HTML
+    meaning_ru = re.sub(r"\<.*?\>.*?\<.*?>", "", meaning_ru)
+    # Drop stuff post first punctuation
+    meaning_ru = re.split(r"[\(\)\,\.\!\?\<\>\;]", meaning_ru)[0]
+    # Remove non-word internal hyphens (happen at the end)
+    meaning_ru = re.sub(r" -?-?$", "", meaning_ru)
+    return meaning_ru.strip()
+
+
+
 def process_row(row: dict[str, str]) -> Generator[dict[str, str] | None]:
     if not row["word"] or not row["translate"]:
         # print(f"skipping {row["id"]}: no word/translate")
@@ -100,7 +113,7 @@ def process_row(row: dict[str, str]) -> Generator[dict[str, str] | None]:
 
                     "morphology": (groupdict["morph1"] or groupdict["morph2"]),
                     "pos": meaning["morph"],
-                    "meaning_ru": definition["keyword"].replace("\u0301", "").split(",")[0],
+                    "meaning_ru": parse_meaning_ru(definition["keyword"]),
                     "examples": definition["example"],
 
                     "definition": string,
