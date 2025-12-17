@@ -4,37 +4,37 @@ transcription_system = {
     "б": "b",
     "в": "w", #~v
     "г": "g",
-    "гӀ": "ʁ",
+    "гӀ": "ʁ", # agreed to use uvular symbol, following the transcriptions doc
     "д": "d",
     "ж": "dʒ", #~ʒ
     "з": "dz", #~z
     "й": "j",
-    "к": "kʰ",
+    "к": "k", # aspirated in the doc
     "кк": "kː",
-    "кх": "qʰ",
+    "кх": "q", # aspirated in the doc
     "ккх": "qː",
     "къ": "q’",
     "кӀ": "k’",
     "л": "l",
     "м": "m",
     "н": "n",
-    "п": "pʰ",
+    "п": "p", # aspirated in the doc
     "пп": "pː",
     "пӀ": "p’",
     "р": "r",
     "рхӏ": "r̥", # does this actually occur?
     "с": "s",
     "сс": "sː",
-    "т": "tʰ",
+    "т": "t", # aspirated in the doc
     "тт": "tː",
     "тӀ": "t’",
     "ф": "f",
     "х": "x",
     "хӀ": "h",
     "хь": "ħ", #~ʜ
-    "ц": "tsʰ",
+    "ц": "ts",
     "цӀ": "ts’",
-    "ч": "tʃʰ",
+    "ч": "tʃ", # aspirated in the doc
     "чӀ": "tʃ’",
     "ш": "ʃ",
     "ъ": "ʔ",
