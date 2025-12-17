@@ -66,6 +66,12 @@ transcription_system = {
     # 'э̃': '',
     # 'ю̃': '',
     # 'я̃': ''
+
+    # Cyrillic not in Chechen, but found anyway:
+    'ы': 'ə', # complete guess
+
+    # Remaining weirdness in the dataset:
+    # Ӏьа
 }
 
 transcription_system = {cyr: ipa for cyr, ipa in sorted(transcription_system.items(), key=lambda x: len(x[0]), reverse=True)}
