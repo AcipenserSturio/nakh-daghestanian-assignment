@@ -22,6 +22,9 @@ def parse_definition(text):
         parts = d.split(';', 1)
         keyword = parts[0].strip()
         example = parts[1].strip() if len(parts) > 1 else None
+        if example:
+            example = example.replace("<b>", "<che>").replace("</b>", "</che>")
+            example = example.replace("<i>", "").replace("</i>", "")
         return {'keyword': keyword, 'example': example}
 
     definitions = [split_def(d) for d in defs]

@@ -62,6 +62,9 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
     lemmas = extract_lemmas(lemma)
 
     examples = m.group("examples")
+    if examples:
+        examples = examples.replace("<b>", "<rus>").replace("</b>", "</rus>")
+        examples = examples.replace("<i>", "").replace("</i>", "")
 
     for index, lemma in enumerate(lemmas):
         return {

@@ -29,6 +29,7 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
     meaning_ru = re.split(r"[\(\)\,\.\!\?\<\>\;]", meaning_ru)[0]
 
     examples = m.group("examples")
+    examples = examples.replace("<b>", "<che>").replace("</b>", "</che>")
 
     return {
         "language": "Chechen",

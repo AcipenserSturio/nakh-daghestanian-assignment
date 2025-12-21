@@ -11,6 +11,8 @@ def process_row(row: dict[str, str]) -> dict[str, str] | None:
     lemma = row["word"].split("(")[0].strip()
     meaning_ru = row["translate"].split("(")[0]
     examples = row["translate"].split(")")[-1]
+    examples = examples.strip()
+    examples = re.sub(r"\</?i\>", "", examples)
 
     # consider:
     # Мышца, поднимающая верхнюю губу и крылья носа

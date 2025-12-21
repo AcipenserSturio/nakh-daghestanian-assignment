@@ -21,7 +21,9 @@ def process_row(row: dict[str, str]) -> Optional[dict[str, str]]:
         return
     morph = m.group("morph")
     meaning_ru = m.group("meaning").strip()
-    examples = m.group("examples")
+    examples = m.group("examples").strip()
+    examples = examples.replace("<b>", "<che>").replace("</b>", "</che>")
+    examples = examples.replace("<i>", "").replace("</i>", "")
 
     return {
         "language": "Chechen",
